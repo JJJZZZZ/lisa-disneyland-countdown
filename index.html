@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris Disneyland Countdown</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600&display=swap');
+
+        :root {
+            color-scheme: dark;
+            --card-bg: rgba(12, 16, 36, 0.62);
+            --card-edge: rgba(255, 255, 255, 0.14);
+            --soft-glow: rgba(255, 198, 234, 0.35);
+            --text-primary: #f7f3ff;
+            --text-muted: rgba(247, 243, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-primary);
+            background:
+                radial-gradient(circle at 15% 15%, rgba(165, 128, 255, 0.18) 0%, transparent 45%),
+                radial-gradient(circle at 85% 20%, rgba(255, 170, 220, 0.22) 0%, transparent 40%),
+                radial-gradient(circle at 50% 100%, rgba(111, 141, 255, 0.2) 0%, transparent 60%),
+                linear-gradient(180deg, #060818 0%, #171233 45%, #301a47 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: clamp(1.5rem, 4vw, 4rem);
+            overflow: hidden;
+            position: relative;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(2, 4, 12, 0.35) 70%, rgba(2, 4, 12, 0.75) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .firework-container {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .firework-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            will-change: transform, opacity;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+            width: min(640px, 100%);
+            padding: clamp(2.4rem, 6vw, 4rem);
+            border-radius: 32px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-edge);
+            box-shadow:
+                0 28px 70px rgba(5, 8, 22, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            text-align: center;
+            backdrop-filter: blur(24px);
+        }
+
+        .wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            pointer-events: none;
+        }
+
+        .emblem {
+            width: clamp(64px, 12vw, 88px);
+            margin: 0 auto clamp(1rem, 2vw, 1.5rem);
+        }
+
+        .emblem svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 12px 24px rgba(255, 182, 222, 0.35));
+        }
+
+        .eyebrow {
+            font-size: 0.9rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: clamp(0.8rem, 2vw, 1.2rem);
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 5vw, 3.6rem);
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            background: linear-gradient(120deg, #f7d1ff 10%, #ffe6f5 45%, #ffdcbf 90%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: clamp(0.8rem, 2.2vw, 1.2rem);
+        }
+
+        .subhead {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.6rem, 3.8vw, 2.2rem);
+            color: rgba(255, 205, 237, 0.9);
+            letter-spacing: 0.05em;
+            line-height: 1.4;
+        }
+
+        .separator {
+            width: 100%;
+            height: 1px;
+            margin: clamp(1.8rem, 4vw, 2.6rem) 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 194, 234, 0.35) 40%, rgba(255, 255, 255, 0.45) 50%, rgba(187, 214, 255, 0.35) 60%, transparent 100%);
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: clamp(1rem, 3vw, 1.8rem);
+        }
+
+        .time-box {
+            padding: clamp(1.2rem, 3.5vw, 1.8rem) clamp(0.8rem, 2.4vw, 1.4rem);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(11, 15, 36, 0.55);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        .time-value {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.6rem, 5.5vw, 3.4rem);
+            line-height: 1;
+            letter-spacing: 0.05em;
+        }
+
+        .time-label {
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.42em;
+            color: var(--text-muted);
+        }
+
+        .note {
+            margin-top: clamp(2.4rem, 5vw, 3.2rem);
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+            color: rgba(255, 207, 237, 0.95);
+            line-height: 1.6;
+        }
+
+        @media (max-width: 540px) {
+            .wrapper {
+                padding: clamp(1.8rem, 8vw, 2.6rem);
+            }
+
+            .eyebrow {
+                letter-spacing: 0.28em;
+            }
+
+            .time-label {
+                letter-spacing: 0.32em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            body {
+                overflow-y: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="firework-container" id="fireworkContainer" aria-hidden="true"></div>
+    <main class="wrapper">
+        <div class="emblem" aria-hidden="true">
+            <svg viewBox="0 0 120 120" role="img" focusable="false">
+                <defs>
+                    <linearGradient id="castle-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#fef6ff"/>
+                        <stop offset="100%" stop-color="#d9c7ff"/>
+                    </linearGradient>
+                </defs>
+                <path d="M14 116v-36h14V59l8 8 9-9V46h9V30l7 7 7-7v16h9l-2-12 9-9 9 9-2 12h10v21h14v36h-18v-22h-16v22H32v-22H16v22z" fill="url(#castle-gradient)" opacity="0.9"/>
+                <rect x="52" y="66" width="16" height="16" rx="2" fill="rgba(10, 13, 30, 0.25)"/>
+                <circle cx="60" cy="40" r="4" fill="#ffe8f6"/>
+            </svg>
+        </div>
+        <p class="eyebrow">Paris Disneyland • November 4, 2025</p>
+        <h1>Midnight at the Castle</h1>
+        <p class="subhead">Counting down to the moment we share the fireworks above Main Street, U.S.A.</p>
+        <div class="separator" aria-hidden="true"></div>
+        <section class="countdown" aria-label="Countdown to Paris Disneyland" aria-live="polite">
+            <div class="time-box">
+                <div class="time-value" id="days">00</div>
+                <div class="time-label">Days</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-box">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+        </section>
+        <p class="note">For my beautiful Lisa — our fairytale is waiting in the City of Love.</p>
+    </main>
+    <script>
+        const targetDate = new Date('2025-11-04T00:00:00').getTime();
+        const countdownElements = {
+            days: document.getElementById('days'),
+            hours: document.getElementById('hours'),
+            minutes: document.getElementById('minutes'),
+            seconds: document.getElementById('seconds')
+        };
+        const messageNote = document.querySelector('.note');
+
+        function updateCountdown() {
+            const now = Date.now();
+            const distance = targetDate - now;
+
+            if (distance <= 0) {
+                countdownElements.days.textContent = '00';
+                countdownElements.hours.textContent = '00';
+                countdownElements.minutes.textContent = '00';
+                countdownElements.seconds.textContent = '00';
+                messageNote.textContent = 'The moment is here — meet me beneath the castle lights.';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            countdownElements.days.textContent = String(days).padStart(2, '0');
+            countdownElements.hours.textContent = String(hours).padStart(2, '0');
+            countdownElements.minutes.textContent = String(minutes).padStart(2, '0');
+            countdownElements.seconds.textContent = String(seconds).padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const fireworkContainer = document.getElementById('fireworkContainer');
+        let activeParticles = 0;
+        const MAX_PARTICLES = 160;
+        const disneyPalettes = [
+            ['#ffd6ff', '#ff99d6', '#ffe066', '#ffffff'],
+            ['#cdb4ff', '#a29bfe', '#f4f0ff', '#ffe2e6'],
+            ['#ffbbec', '#ff9f9f', '#ffe5b4', '#ffffff'],
+            ['#a7c7ff', '#5f8cff', '#f8f9ff', '#ffd6a5']
+        ];
+        const fireworkStyles = ['chrysanthemum', 'ring', 'heart', 'burst'];
+
+        let loopTimeoutId;
+        let accentIntervalId;
+        let heartIntervalId;
+
+        function startFireworks() {
+            if (prefersReducedMotion.matches) {
+                return;
+            }
+            stopFireworks();
+            launchCascade();
+            accentIntervalId = window.setInterval(() => {
+                if (activeParticles < MAX_PARTICLES * 0.6) {
+                    createDisneyFirework();
+                }
+            }, 13000);
+            heartIntervalId = window.setInterval(() => {
+                if (activeParticles < MAX_PARTICLES * 0.5) {
+                    const palette = ['#ffd2f8', '#ffe6ff', '#fff3bf', '#ffffff'];
+                    const x = window.innerWidth * (0.35 + Math.random() * 0.3);
+                    const y = window.innerHeight * (0.22 + Math.random() * 0.28);
+                    createHeartFirework(x, y, palette, 34);
+                }
+            }, 22000);
+        }
+
+        function stopFireworks() {
+            window.clearTimeout(loopTimeoutId);
+            window.clearInterval(accentIntervalId);
+            window.clearInterval(heartIntervalId);
+        }
+
+        function launchCascade() {
+            createDisneyFirework();
+            const delay = 2400 + Math.random() * 2000;
+            loopTimeoutId = window.setTimeout(launchCascade, delay);
+        }
+
+        function createDisneyFirework() {
+            if (activeParticles > MAX_PARTICLES) {
+                return;
+            }
+
+            const palette = disneyPalettes[Math.floor(Math.random() * disneyPalettes.length)];
+            const type = fireworkStyles[Math.floor(Math.random() * fireworkStyles.length)];
+            const x = window.innerWidth * (0.2 + Math.random() * 0.6);
+            const y = window.innerHeight * (0.18 + Math.random() * 0.32);
+
+            switch (type) {
+                case 'chrysanthemum':
+                    createChrysanthemum(x, y, palette, 46);
+                    break;
+                case 'ring':
+                    createRing(x, y, palette, 42);
+                    break;
+                case 'heart':
+                    createHeartFirework(x, y, palette, 32);
+                    break;
+                default:
+                    createBurst(x, y, palette, 38);
+            }
+        }
+
+        function createChrysanthemum(x, y, palette, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 55 + Math.random() * 30;
+                const color = palette[Math.floor(Math.random() * palette.length)];
+                createFireworkParticle(x, y, angle, speed, color, 1.08);
+            }
+        }
+
+        function createRing(x, y, palette, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const color = palette[i % palette.length];
+                createFireworkParticle(x, y, angle, 70, color, 0.85);
+            }
+        }
+
+        function createHeartFirework(x, y, palette, count) {
+            for (let i = 0; i < count; i++) {
+                const t = (i / count) * Math.PI * 2;
+                const heartX = 16 * Math.pow(Math.sin(t), 3);
+                const heartY = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+                const angle = Math.atan2(heartY, heartX);
+                const speed = 52;
+                const color = palette[Math.floor(Math.random() * palette.length)];
+                createFireworkParticle(x, y, angle, speed, color, 0.9);
+            }
+        }
+
+        function createBurst(x, y, palette, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 48 + Math.random() * 44;
+                const color = palette[Math.floor(Math.random() * palette.length)];
+                createFireworkParticle(x, y, angle, speed, color, 1);
+            }
+        }
+
+        function createFireworkParticle(x, y, angle, speed, color, gravityFactor) {
+            if (activeParticles > MAX_PARTICLES) {
+                return;
+            }
+
+            const particle = document.createElement('span');
+            particle.className = 'firework-particle';
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.background = color;
+            particle.style.boxShadow = `0 0 12px ${color}`;
+            fireworkContainer.appendChild(particle);
+            activeParticles++;
+
+            let vx = Math.cos(angle) * speed;
+            let vy = Math.sin(angle) * speed;
+            let posX = 0;
+            let posY = 0;
+            let life = 72;
+            let opacity = 1;
+
+            function animate() {
+                life -= 1;
+                vy += gravityFactor * 0.35;
+                vx *= 0.985;
+                vy *= 0.985;
+
+                posX += vx * 0.016;
+                posY += vy * 0.016;
+                opacity -= 1 / 72;
+
+                particle.style.transform = `translate3d(${posX}px, ${posY}px, 0)`;
+                particle.style.opacity = opacity;
+
+                if (life > 0 && opacity > 0) {
+                    requestAnimationFrame(animate);
+                } else {
+                    particle.remove();
+                    activeParticles--;
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        if (!prefersReducedMotion.matches) {
+            startFireworks();
+        }
+
+        const handleMotionPreference = (event) => {
+            if (event.matches) {
+                stopFireworks();
+            } else {
+                startFireworks();
+            }
+        };
+
+        if (prefersReducedMotion.addEventListener) {
+            prefersReducedMotion.addEventListener('change', handleMotionPreference);
+        } else if (prefersReducedMotion.addListener) {
+            prefersReducedMotion.addListener(handleMotionPreference);
+        }
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopFireworks();
+            } else if (!prefersReducedMotion.matches) {
+                startFireworks();
+            }
+        });
+    </script>
+</body>
+</html>
