@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Dark Dungeon — November 4, 2025</title>
+    <title>Paris Disneyland — November 4, 2025</title>
     <style>
         * {
             margin: 0;
@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(180deg, #0a0014 0%, #1a0a1f 50%, #000000 100%);
+            background: linear-gradient(180deg, #0a0014 0%, #1a0a1f 30%, #0d0015 60%, #000000 100%);
             color: #c8b8d8;
             min-height: 100vh;
             display: flex;
@@ -25,11 +25,22 @@
             overflow: hidden;
         }
 
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(75, 0, 130, 0.15) 0%, transparent 70%),
+                        radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
         .firework-canvas {
             position: fixed;
             inset: 0;
             pointer-events: none;
             z-index: 1;
+            background: radial-gradient(circle at 50% 100%, rgba(30, 0, 40, 0.4) 0%, transparent 60%);
         }
 
         .container {
@@ -54,12 +65,13 @@
         .eyebrow {
             font-size: 1.125rem;
             font-weight: 600;
-            letter-spacing: 0.3em;
-            color: rgba(180, 140, 200, 0.9);
-            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            color: rgba(139, 0, 139, 0.9);
+            margin-bottom: 0.75rem;
             opacity: 0;
             animation: fadeInUp 1.2s ease-out 0.3s forwards;
             text-transform: uppercase;
+            text-shadow: 0 0 15px rgba(139, 0, 139, 0.8);
         }
 
         h1 {
@@ -67,24 +79,30 @@
             font-weight: 700;
             letter-spacing: -0.03em;
             line-height: 1.05;
-            color: #e8d8f8;
+            color: #c8b8d8;
             margin-bottom: 1.5rem;
             opacity: 0;
             animation: fadeInUp 1.2s ease-out 0.4s forwards;
+            text-shadow: 0 0 30px rgba(139, 0, 139, 0.7);
         }
 
         .gradient-text {
-            background: linear-gradient(120deg,
-                #dc143c 0%,
-                #8b008b 25%,
-                #4b0082 50%,
-                #8b008b 75%,
-                #dc143c 100%);
+            background: linear-gradient(120deg, #8b0000 0%, #4b0082 20%, #006400 40%, #8b008b 60%, #8b0000 80%, #4b0082 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: shimmer 3s linear infinite;
+            animation: shimmer 3s linear infinite, evilGlow 2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 30px rgba(139, 0, 139, 0.8)) drop-shadow(0 0 15px rgba(139, 0, 0, 0.6));
+        }
+
+        @keyframes evilGlow {
+            from {
+                filter: drop-shadow(0 0 30px rgba(139, 0, 139, 0.8)) drop-shadow(0 0 15px rgba(139, 0, 0, 0.6));
+            }
+            to {
+                filter: drop-shadow(0 0 40px rgba(75, 0, 130, 0.9)) drop-shadow(0 0 25px rgba(0, 100, 0, 0.7));
+            }
         }
 
         @keyframes shimmer {
@@ -97,10 +115,11 @@
             font-size: 1.625rem;
             font-weight: 400;
             line-height: 1.5;
-            color: rgba(180, 140, 200, 0.8);
+            color: rgba(139, 0, 139, 0.85);
             margin-bottom: 3.5rem;
             opacity: 0;
             animation: fadeInUp 1.2s ease-out 0.5s forwards;
+            text-shadow: 0 0 20px rgba(139, 0, 139, 0.6);
         }
 
         .countdown {
@@ -113,58 +132,106 @@
         }
 
         .time-unit {
-            background: rgba(20, 0, 40, 0.6);
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.15) 0%, rgba(0, 0, 0, 0.8) 100%);
+            backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 2.75rem 1.25rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(139, 0, 139, 0.3);
+            box-shadow:
+                0 4px 20px rgba(139, 0, 139, 0.4),
+                0 8px 40px rgba(0, 0, 0, 0.6),
+                inset 0 1px 0 rgba(139, 0, 139, 0.2),
+                inset 0 -1px 0 rgba(139, 0, 0, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(75, 0, 130, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(75, 0, 130, 0.2) 50%, rgba(0, 100, 0, 0.2) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .time-unit:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(139, 0, 139, 0.4);
-            border-color: rgba(139, 0, 139, 0.5);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow:
+                0 20px 50px rgba(139, 0, 139, 0.6),
+                0 10px 30px rgba(139, 0, 0, 0.4),
+                inset 0 1px 0 rgba(139, 0, 139, 0.4),
+                inset 0 -1px 0 rgba(139, 0, 0, 0.4);
+            border-color: rgba(139, 0, 139, 0.6);
+        }
+
+        .time-unit:hover::before {
+            opacity: 1;
         }
 
         .time-value {
             font-size: 4.5rem;
             font-weight: 700;
             letter-spacing: -0.03em;
-            color: #e8d8f8;
+            color: #c8b8d8;
             line-height: 1;
             margin-bottom: 0.875rem;
+            text-shadow:
+                0 0 20px rgba(139, 0, 139, 0.8),
+                0 0 40px rgba(75, 0, 130, 0.6),
+                0 4px 12px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 1;
         }
 
         .time-label {
             font-size: 0.9375rem;
             font-weight: 500;
-            color: rgba(180, 140, 200, 0.8);
+            color: rgba(139, 0, 139, 0.8);
             text-transform: uppercase;
             letter-spacing: 0.1em;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(139, 0, 139, 0.6);
         }
 
         .message {
             font-size: 1.875rem;
             font-weight: 500;
             line-height: 1.5;
-            color: rgba(180, 140, 200, 0.9);
+            color: rgba(139, 0, 139, 0.95);
             margin-top: 3.5rem;
             opacity: 0;
             animation: fadeInUp 1.2s ease-out 0.7s forwards;
+            text-shadow: 0 0 25px rgba(139, 0, 139, 0.8), 0 0 15px rgba(139, 0, 0, 0.5);
         }
 
         .divider {
             width: 100px;
             height: 4px;
-            background: linear-gradient(90deg,
-                #8b0000,
-                #4b0082,
-                #8b0000);
+            background: linear-gradient(90deg, #8b0000, #4b0082, #006400, #4b0082, #8b0000);
             border-radius: 2px;
             margin: 3.5rem auto;
             opacity: 0;
-            animation: fadeInUp 1.2s ease-out 0.8s forwards;
+            animation: fadeInUp 1.2s ease-out 0.8s forwards, evilDividerPulse 3s ease-in-out infinite;
+            box-shadow:
+                0 0 20px rgba(139, 0, 139, 0.8),
+                0 0 10px rgba(139, 0, 0, 0.6);
+        }
+
+        @keyframes evilDividerPulse {
+            0%, 100% {
+                box-shadow:
+                    0 0 20px rgba(139, 0, 139, 0.8),
+                    0 0 10px rgba(139, 0, 0, 0.6);
+            }
+            50% {
+                box-shadow:
+                    0 0 30px rgba(139, 0, 139, 1),
+                    0 0 20px rgba(139, 0, 0, 0.8),
+                    0 0 10px rgba(0, 100, 0, 0.6);
+            }
         }
 
         .particle {
@@ -196,6 +263,10 @@
                 font-size: 3.5rem;
             }
 
+            h1 {
+                margin-bottom: 1.5rem;
+            }
+
             .message {
                 font-size: 1.5rem;
             }
@@ -220,8 +291,8 @@
     <div class="firework-canvas" id="fireworks"></div>
 
     <div class="container">
-        <p class="eyebrow">November 4, 2025</p>
-        <h1>The Dark <span class="gradient-text">Dungeon</span></h1>
+        <p class="eyebrow">The Darkness Approaches</p>
+        <h1>The Evil <span class="gradient-text">Kingdom</span></h1>
         <p class="subtitle">Where shadows dance and darkness reigns eternal</p>
 
         <div class="countdown" id="countdown">
@@ -278,25 +349,25 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Enhanced Dark Fireworks
+        // Spectacular Disney-Style Fireworks
         const canvas = document.getElementById('fireworks');
         let particles = [];
-        const MAX_PARTICLES = 600;
+        const MAX_PARTICLES = 400;
 
-        // Vibrant dark color palettes
+        // Dark evil color palettes
         const PALETTES = [
-            // Electric Purple
-            ['#9400d3', '#8b00ff', '#9932cc', '#ba55d3', '#e066ff'],
-            // Crimson Fire
-            ['#dc143c', '#ff1493', '#ff4500', '#ff6347', '#ff69b4'],
-            // Neon Green
-            ['#00ff00', '#32cd32', '#7fff00', '#adff2f', '#39ff14'],
-            // Deep Blue Electric
-            ['#0000ff', '#1e90ff', '#00bfff', '#87ceeb', '#6495ed'],
-            // Purple-Red Mix
-            ['#dc143c', '#9400d3', '#ff1493', '#8b00ff', '#ff4500'],
-            // Cyan-Purple
-            ['#00ffff', '#8b00ff', '#00ced1', '#9400d3', '#7fff00']
+            // Deep Purple (maleficent)
+            ['#4b0082', '#6a0dad', '#8b008b', '#9370db', '#4b0082'],
+            // Blood Red (evil queen)
+            ['#8b0000', '#dc143c', '#b22222', '#8b0000', '#a52a2a'],
+            // Toxic Green (ursula/maleficent)
+            ['#006400', '#228b22', '#32cd32', '#00ff00', '#006400'],
+            // Dark Purple/Red
+            ['#4b0082', '#8b0000', '#4b0082', '#8b0000', '#4b0082'],
+            // Shadow Black/Purple
+            ['#1a001a', '#4b0082', '#2d0a4d', '#1a001a', '#4b0082'],
+            // Dark Green/Purple
+            ['#013220', '#4b0082', '#006400', '#4b0082', '#013220']
         ];
 
         class Particle {
@@ -322,17 +393,16 @@
                 el.style.position = 'absolute';
                 el.style.width = this.size + 'px';
                 el.style.height = this.size + 'px';
-                el.style.background = `radial-gradient(circle, #ffffff 0%, ${this.color} 40%, ${this.color} 100%)`;
+                el.style.background = `radial-gradient(circle, ${this.color} 0%, rgba(255,255,255,0.8) 50%, ${this.color} 100%)`;
                 el.style.boxShadow = `
-                    0 0 ${this.size * 3}px ${this.color},
-                    0 0 ${this.size * 6}px ${this.color},
-                    0 0 ${this.size * 9}px ${this.color},
-                    0 0 ${this.size * 12}px rgba(255, 255, 255, 0.6)
+                    0 0 ${this.size * 2}px ${this.color},
+                    0 0 ${this.size * 4}px ${this.color},
+                    0 0 ${this.size * 6}px rgba(255, 255, 255, 0.5)
                 `;
                 el.style.left = this.x + 'px';
                 el.style.top = this.y + 'px';
                 el.style.opacity = this.life;
-                el.style.filter = 'brightness(2)';
+                el.style.filter = 'brightness(1.5)';
                 canvas.appendChild(el);
                 return el;
             }
@@ -434,22 +504,22 @@
             setTimeout(() => {
                 switch(type) {
                     case 'fountain':
-                        createFountain(x, y, colors, 120);
+                        createFountain(x, y, colors, 80);
                         break;
                     case 'palm':
-                        createPalm(x, y, colors, 100);
+                        createPalm(x, y, colors, 70);
                         break;
                     case 'chrysanthemum':
-                        createChrysanthemum(x, y, colors, 150);
+                        createChrysanthemum(x, y, colors, 90);
                         break;
                     case 'ring':
-                        createRing(x, y, colors, 80);
+                        createRing(x, y, colors, 60);
                         break;
                     case 'heart':
-                        createHeart(x, y, colors, 80);
+                        createHeart(x, y, colors, 50);
                         break;
                     case 'willow':
-                        createWillow(x, y, colors, 120);
+                        createWillow(x, y, colors, 85);
                         break;
                 }
             }, 50);
@@ -460,15 +530,11 @@
             flash.style.position = 'absolute';
             flash.style.left = x + 'px';
             flash.style.top = y + 'px';
-            flash.style.width = '40px';
-            flash.style.height = '40px';
+            flash.style.width = '30px';
+            flash.style.height = '30px';
             flash.style.borderRadius = '50%';
-            flash.style.background = `radial-gradient(circle, #ffffff 0%, ${color} 40%, transparent 100%)`;
-            flash.style.boxShadow = `
-                0 0 80px #ffffff,
-                0 0 160px ${color},
-                0 0 240px ${color}
-            `;
+            flash.style.background = `radial-gradient(circle, #ffffff 0%, ${color} 50%, transparent 100%)`;
+            flash.style.boxShadow = `0 0 60px #ffffff, 0 0 120px ${color}`;
             flash.style.pointerEvents = 'none';
             canvas.appendChild(flash);
 
@@ -476,8 +542,8 @@
             let opacity = 1;
 
             function animateFlash() {
-                scale += 2;
-                opacity -= 0.04;
+                scale += 1.5;
+                opacity -= 0.05;
                 flash.style.transform = `translate(-50%, -50%) scale(${scale})`;
                 flash.style.opacity = opacity;
 
@@ -592,32 +658,32 @@
             launchRocket(x, y, palette, type);
         }
 
-        // Continuous launch - more frequent
+        // Continuous launch
         function scheduleFirework() {
             createSpectacularFirework();
-            setTimeout(scheduleFirework, 800 + Math.random() * 1500);
+            setTimeout(scheduleFirework, 1200 + Math.random() * 2000);
         }
 
-        // Spectacular bursts
+        // Spectacular bursts (like the Disney finale)
         setInterval(() => {
             if (particles.length < MAX_PARTICLES * 0.6) {
-                const burstCount = 2 + Math.floor(Math.random() * 3);
+                const burstCount = 3 + Math.floor(Math.random() * 3);
                 for (let i = 0; i < burstCount; i++) {
-                    setTimeout(() => createSpectacularFirework(), i * 250);
+                    setTimeout(() => createSpectacularFirework(), i * 300);
                 }
             }
-        }, 6000);
+        }, 8000);
 
-        // Special vibrant heart fireworks for Lisa
+        // Special dark heart fireworks for Lisa
         setInterval(() => {
             if (particles.length < MAX_PARTICLES * 0.7) {
                 const x = window.innerWidth * (0.4 + Math.random() * 0.2);
                 const y = window.innerHeight * (0.2 + Math.random() * 0.15);
-                launchRocket(x, y, ['#ff1493', '#9400d3', '#ff69b4', '#8b00ff', '#ff4500'], 'heart');
+                launchRocket(x, y, ['#8b0000', '#4b0082', '#8b008b', '#6a0dad'], 'heart');
             }
-        }, 12000);
+        }, 15000);
 
-        setTimeout(scheduleFirework, 600);
+        setTimeout(scheduleFirework, 800);
     </script>
 </body>
 </html>
