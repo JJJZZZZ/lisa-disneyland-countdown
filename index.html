@@ -13,8 +13,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(180deg, #fafafa 0%, #f5f5f7 100%);
-            color: #1d1d1f;
+            background: linear-gradient(180deg, #0a0e1a 0%, #1a1f2e 50%, #0f1419 100%);
+            color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -30,6 +30,7 @@
             inset: 0;
             pointer-events: none;
             z-index: 1;
+            background: radial-gradient(circle at 50% 100%, rgba(10, 30, 60, 0.3) 0%, transparent 60%);
         }
 
         .container {
@@ -41,16 +42,17 @@
         }
 
         .icon {
-            font-size: 4rem;
+            font-size: 5rem;
             margin-bottom: 1.5rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.2s forwards;
+            animation: fadeInUp 1.2s ease-out 0.2s forwards;
+            filter: drop-shadow(0 10px 30px rgba(255, 215, 0, 0.5));
         }
 
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -59,130 +61,167 @@
         }
 
         .eyebrow {
-            font-size: 1.0625rem;
+            font-size: 1.125rem;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            color: #6e6e73;
-            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.75rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.3s forwards;
+            animation: fadeInUp 1.2s ease-out 0.3s forwards;
+            text-transform: uppercase;
         }
 
         h1 {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: clamp(3rem, 8vw, 6.5rem);
             font-weight: 700;
-            letter-spacing: -0.025em;
+            letter-spacing: -0.03em;
             line-height: 1.05;
-            color: #1d1d1f;
-            margin-bottom: 1rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.4s forwards;
+            animation: fadeInUp 1.2s ease-out 0.4s forwards;
         }
 
         .gradient-text {
-            background: linear-gradient(90deg, #ff3b8f 0%, #ff6b3b 25%, #ffb800 50%, #ff3b8f 75%, #ff6b3b 100%);
+            background: linear-gradient(120deg, #ffd700 0%, #ffed4e 20%, #ff6b9d 40%, #ff3b8f 60%, #ffd700 80%, #ffed4e 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradient-slide 4s linear infinite;
+            animation: shimmer 3s linear infinite;
+            filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
         }
 
-        @keyframes gradient-slide {
+        @keyframes shimmer {
             to {
                 background-position: 200% center;
             }
         }
 
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.625rem;
             font-weight: 400;
-            line-height: 1.4;
-            color: #6e6e73;
-            margin-bottom: 3rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3.5rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.5s forwards;
+            animation: fadeInUp 1.2s ease-out 0.5s forwards;
         }
 
         .countdown {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
-            margin: 4rem 0;
+            margin: 4.5rem 0;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.6s forwards;
+            animation: fadeInUp 1.2s ease-out 0.6s forwards;
         }
 
         .time-unit {
-            background: #ffffff;
-            border-radius: 18px;
-            padding: 2.5rem 1rem;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.75rem 1.25rem;
+            box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .time-unit::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 107, 157, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .time-unit:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow:
+                0 20px 40px rgba(255, 215, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 215, 0, 0.3);
+        }
+
+        .time-unit:hover::before {
+            opacity: 1;
         }
 
         .time-value {
-            font-size: 4rem;
+            font-size: 4.5rem;
             font-weight: 700;
-            letter-spacing: -0.02em;
-            color: #1d1d1f;
+            letter-spacing: -0.03em;
+            color: #ffffff;
             line-height: 1;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.875rem;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .time-label {
-            font-size: 0.875rem;
+            font-size: 0.9375rem;
             font-weight: 500;
-            color: #86868b;
+            color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.1em;
+            position: relative;
+            z-index: 1;
         }
 
         .message {
-            font-size: 1.75rem;
+            font-size: 1.875rem;
             font-weight: 500;
             line-height: 1.5;
-            color: #1d1d1f;
-            margin-top: 3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 3.5rem;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.7s forwards;
+            animation: fadeInUp 1.2s ease-out 0.7s forwards;
         }
 
         .divider {
-            width: 80px;
+            width: 100px;
             height: 4px;
-            background: linear-gradient(90deg, #ff3b8f, #ff6b3b, #ffb800);
+            background: linear-gradient(90deg, #ffd700, #ff3b8f, #ffd700);
             border-radius: 2px;
-            margin: 3rem auto;
+            margin: 3.5rem auto;
             opacity: 0;
-            animation: fadeInUp 1s ease-out 0.8s forwards;
+            animation: fadeInUp 1.2s ease-out 0.8s forwards;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
         .particle {
             position: absolute;
             border-radius: 50%;
             pointer-events: none;
-            will-change: transform, opacity;
+        }
+
+        .trail {
+            position: absolute;
+            width: 3px;
+            height: 30px;
+            pointer-events: none;
+            border-radius: 50%;
+            filter: blur(1px);
         }
 
         @media (max-width: 768px) {
             .countdown {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 1.25rem;
+                gap: 1.5rem;
             }
 
             .time-unit {
-                padding: 2rem 0.75rem;
+                padding: 2.25rem 1rem;
             }
 
             .time-value {
-                font-size: 3rem;
+                font-size: 3.5rem;
             }
 
             h1 {
@@ -190,7 +229,7 @@
             }
 
             .message {
-                font-size: 1.375rem;
+                font-size: 1.5rem;
             }
         }
 
@@ -200,11 +239,11 @@
             }
 
             .time-value {
-                font-size: 2.5rem;
+                font-size: 2.75rem;
             }
 
             .time-label {
-                font-size: 0.75rem;
+                font-size: 0.8125rem;
             }
         }
     </style>
@@ -272,30 +311,41 @@
         updateCountdown();
         setInterval(updateCountdown, 1000);
 
-        // Elegant Firework System
+        // Spectacular Disney-Style Fireworks
         const canvas = document.getElementById('fireworks');
         let particles = [];
-        const MAX_PARTICLES = 200;
+        const MAX_PARTICLES = 400;
 
-        const COLORS = [
-            ['#ff3b8f', '#ff6b9d', '#ffb6c1'],
-            ['#ff6b3b', '#ff8f5f', '#ffb89f'],
-            ['#ffb800', '#ffd54f', '#ffe082'],
-            ['#6366f1', '#818cf8', '#a5b4fc'],
-            ['#ec4899', '#f472b6', '#f9a8d4']
+        // Disney-inspired color palettes from the image
+        const PALETTES = [
+            // Gold/Yellow (dominant in image)
+            ['#ffd700', '#ffed4e', '#fff4a3', '#ffffff', '#ffe066'],
+            // Pink/Red
+            ['#ff1493', '#ff6b9d', '#ffb6c1', '#ff69b4', '#ffffff'],
+            // Blue
+            ['#00bfff', '#5fccff', '#87ceeb', '#add8e6', '#ffffff'],
+            // Green
+            ['#32cd32', '#90ee90', '#98fb98', '#adff2f', '#ffffff'],
+            // Purple/Magenta
+            ['#da70d6', '#ee82ee', '#dda0dd', '#ff00ff', '#ffffff'],
+            // Orange
+            ['#ff8c00', '#ffa500', '#ffb347', '#ffd700', '#ffffff']
         ];
 
         class Particle {
-            constructor(x, y, vx, vy, color, size) {
+            constructor(x, y, vx, vy, color, size, life = 1) {
                 this.x = x;
                 this.y = y;
+                this.initialX = x;
+                this.initialY = y;
                 this.vx = vx;
                 this.vy = vy;
                 this.color = color;
                 this.size = size;
-                this.life = 1;
-                this.decay = 0.015;
-                this.gravity = 0.15;
+                this.life = life;
+                this.maxLife = life;
+                this.decay = 0.008;
+                this.gravity = 0.08;
                 this.element = this.createElement();
             }
 
@@ -303,26 +353,34 @@
                 const el = document.createElement('div');
                 el.className = 'particle';
                 el.style.position = 'absolute';
-                el.style.left = this.x + 'px';
-                el.style.top = this.y + 'px';
                 el.style.width = this.size + 'px';
                 el.style.height = this.size + 'px';
-                el.style.background = this.color;
-                el.style.boxShadow = `0 0 ${this.size * 3}px ${this.color}`;
+                el.style.background = `radial-gradient(circle, ${this.color} 0%, rgba(255,255,255,0.8) 50%, ${this.color} 100%)`;
+                el.style.boxShadow = `
+                    0 0 ${this.size * 2}px ${this.color},
+                    0 0 ${this.size * 4}px ${this.color},
+                    0 0 ${this.size * 6}px rgba(255, 255, 255, 0.5)
+                `;
+                el.style.left = this.x + 'px';
+                el.style.top = this.y + 'px';
                 el.style.opacity = this.life;
+                el.style.filter = 'brightness(1.5)';
                 canvas.appendChild(el);
                 return el;
             }
 
             update() {
                 this.vy += this.gravity;
-                this.vx *= 0.98;
-                this.vy *= 0.98;
+                this.vx *= 0.995;
+                this.vy *= 0.995;
                 this.x += this.vx;
                 this.y += this.vy;
                 this.life -= this.decay;
 
-                this.element.style.transform = `translate(${this.x}px, ${this.y}px)`;
+                const progress = 1 - (this.life / this.maxLife);
+                const scale = 1 - (progress * 0.5);
+
+                this.element.style.transform = `translate(${this.x - this.initialX}px, ${this.y - this.initialY}px) scale(${scale})`;
                 this.element.style.opacity = Math.max(0, this.life);
 
                 if (this.life <= 0) {
@@ -333,37 +391,168 @@
             }
         }
 
-        function createFirework() {
-            if (particles.length > MAX_PARTICLES) return;
+        class Trail {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.life = 1;
+                this.element = this.createElement(color);
+            }
 
-            const x = window.innerWidth * (0.2 + Math.random() * 0.6);
-            const y = window.innerHeight * (0.15 + Math.random() * 0.35);
-            const palette = COLORS[Math.floor(Math.random() * COLORS.length)];
-            const type = Math.floor(Math.random() * 3);
+            createElement(color) {
+                const el = document.createElement('div');
+                el.className = 'trail';
+                el.style.position = 'absolute';
+                el.style.left = this.x + 'px';
+                el.style.top = this.y + 'px';
+                el.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
+                el.style.boxShadow = `0 0 10px ${color}`;
+                el.style.opacity = this.life;
+                canvas.appendChild(el);
+                return el;
+            }
 
-            switch(type) {
-                case 0:
-                    createBurst(x, y, palette, 40);
-                    break;
-                case 1:
-                    createRing(x, y, palette, 35);
-                    break;
-                case 2:
-                    createHeart(x, y, palette, 35);
-                    break;
+            update() {
+                this.life -= 0.03;
+                this.element.style.opacity = Math.max(0, this.life);
+                this.element.style.transform = `translateY(${(1 - this.life) * 30}px)`;
+
+                if (this.life <= 0) {
+                    this.element.remove();
+                    return false;
+                }
+                return true;
             }
         }
 
-        function createBurst(x, y, colors, count) {
+        // Launch rocket with trail
+        function launchRocket(targetX, targetY, palette, type) {
+            const startX = targetX + (Math.random() - 0.5) * 150;
+            const startY = window.innerHeight + 20;
+            const duration = 1500;
+            const startTime = Date.now();
+            let trails = [];
+
+            function animateLaunch() {
+                const elapsed = Date.now() - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+
+                const currentY = startY - ((startY - targetY) * eased);
+
+                // Create trail
+                if (Math.random() < 0.4) {
+                    const trail = new Trail(startX, currentY, palette[0]);
+                    trails.push(trail);
+                }
+
+                // Update trails
+                trails = trails.filter(t => t.update());
+
+                if (progress < 1) {
+                    requestAnimationFrame(animateLaunch);
+                } else {
+                    explode(targetX, targetY, palette, type);
+                }
+            }
+
+            animateLaunch();
+        }
+
+        function explode(x, y, colors, type) {
+            // Flash effect
+            createFlash(x, y, colors[0]);
+
+            setTimeout(() => {
+                switch(type) {
+                    case 'fountain':
+                        createFountain(x, y, colors, 80);
+                        break;
+                    case 'palm':
+                        createPalm(x, y, colors, 70);
+                        break;
+                    case 'chrysanthemum':
+                        createChrysanthemum(x, y, colors, 90);
+                        break;
+                    case 'ring':
+                        createRing(x, y, colors, 60);
+                        break;
+                    case 'heart':
+                        createHeart(x, y, colors, 50);
+                        break;
+                    case 'willow':
+                        createWillow(x, y, colors, 85);
+                        break;
+                }
+            }, 50);
+        }
+
+        function createFlash(x, y, color) {
+            const flash = document.createElement('div');
+            flash.style.position = 'absolute';
+            flash.style.left = x + 'px';
+            flash.style.top = y + 'px';
+            flash.style.width = '30px';
+            flash.style.height = '30px';
+            flash.style.borderRadius = '50%';
+            flash.style.background = `radial-gradient(circle, #ffffff 0%, ${color} 50%, transparent 100%)`;
+            flash.style.boxShadow = `0 0 60px #ffffff, 0 0 120px ${color}`;
+            flash.style.pointerEvents = 'none';
+            canvas.appendChild(flash);
+
+            let scale = 0;
+            let opacity = 1;
+
+            function animateFlash() {
+                scale += 1.5;
+                opacity -= 0.05;
+                flash.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                flash.style.opacity = opacity;
+
+                if (opacity > 0) {
+                    requestAnimationFrame(animateFlash);
+                } else {
+                    flash.remove();
+                }
+            }
+            animateFlash();
+        }
+
+        function createFountain(x, y, colors, count) {
             for (let i = 0; i < count; i++) {
-                const angle = (Math.PI * 2 * i) / count;
-                const speed = 2 + Math.random() * 3;
+                const angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.8;
+                const speed = 5 + Math.random() * 4;
                 const vx = Math.cos(angle) * speed;
                 const vy = Math.sin(angle) * speed;
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                const size = 3 + Math.random() * 2;
+                const size = 4 + Math.random() * 4;
+                const particle = new Particle(x, y, vx, vy, color, size, 1.2);
+                particles.push(particle);
+            }
+        }
 
-                const particle = new Particle(x, y, vx, vy, color, size);
+        function createPalm(x, y, colors, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.5;
+                const speed = 4 + Math.random() * 5;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = 4 + Math.random() * 3;
+                const particle = new Particle(x, y, vx, vy, color, size, 1.3);
+                particles.push(particle);
+            }
+        }
+
+        function createChrysanthemum(x, y, colors, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 3 + Math.random() * 4;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = 4 + Math.random() * 3;
+                const particle = new Particle(x, y, vx, vy, color, size, 1.1);
                 particles.push(particle);
             }
         }
@@ -371,13 +560,12 @@
         function createRing(x, y, colors, count) {
             for (let i = 0; i < count; i++) {
                 const angle = (Math.PI * 2 * i) / count;
-                const speed = 4;
+                const speed = 5;
                 const vx = Math.cos(angle) * speed;
                 const vy = Math.sin(angle) * speed;
                 const color = colors[i % colors.length];
-                const size = 4;
-
-                const particle = new Particle(x, y, vx, vy, color, size);
+                const size = 5;
+                const particle = new Particle(x, y, vx, vy, color, size, 1);
                 particles.push(particle);
             }
         }
@@ -387,51 +575,77 @@
                 const t = (i / count) * Math.PI * 2;
                 const heartX = 16 * Math.pow(Math.sin(t), 3);
                 const heartY = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-
                 const angle = Math.atan2(heartY, heartX);
-                const speed = 3;
+                const speed = 3.5;
                 const vx = Math.cos(angle) * speed;
                 const vy = Math.sin(angle) * speed;
                 const color = colors[Math.floor(Math.random() * colors.length)];
-                const size = 3 + Math.random() * 2;
+                const size = 4 + Math.random() * 2;
+                const particle = new Particle(x, y, vx, vy, color, size, 1.2);
+                particles.push(particle);
+            }
+        }
 
-                const particle = new Particle(x, y, vx, vy, color, size);
+        function createWillow(x, y, colors, count) {
+            for (let i = 0; i < count; i++) {
+                const angle = (Math.PI * 2 * i) / count;
+                const speed = 3 + Math.random() * 2;
+                const vx = Math.cos(angle) * speed;
+                const vy = Math.sin(angle) * speed;
+                const color = colors[i % colors.length];
+                const size = 4 + Math.random() * 2;
+                const particle = new Particle(x, y, vx, vy, color, size, 1.4);
+                particle.gravity = 0.25;
                 particles.push(particle);
             }
         }
 
         function animate() {
-            particles = particles.filter(particle => particle.update());
+            particles = particles.filter(p => p.update());
             requestAnimationFrame(animate);
         }
 
         animate();
 
-        // Launch fireworks
-        function scheduleFirework() {
-            createFirework();
-            setTimeout(scheduleFirework, 2000 + Math.random() * 2500);
+        const types = ['fountain', 'palm', 'chrysanthemum', 'ring', 'heart', 'willow'];
+
+        function createSpectacularFirework() {
+            if (particles.length > MAX_PARTICLES) return;
+
+            const x = window.innerWidth * (0.15 + Math.random() * 0.7);
+            const y = window.innerHeight * (0.1 + Math.random() * 0.3);
+            const palette = PALETTES[Math.floor(Math.random() * PALETTES.length)];
+            const type = types[Math.floor(Math.random() * types.length)];
+
+            launchRocket(x, y, palette, type);
         }
 
-        // Multiple bursts
+        // Continuous launch
+        function scheduleFirework() {
+            createSpectacularFirework();
+            setTimeout(scheduleFirework, 1200 + Math.random() * 2000);
+        }
+
+        // Spectacular bursts (like the Disney finale)
         setInterval(() => {
-            if (particles.length < MAX_PARTICLES * 0.7) {
-                for (let i = 0; i < 2; i++) {
-                    setTimeout(() => createFirework(), i * 500);
+            if (particles.length < MAX_PARTICLES * 0.6) {
+                const burstCount = 3 + Math.floor(Math.random() * 3);
+                for (let i = 0; i < burstCount; i++) {
+                    setTimeout(() => createSpectacularFirework(), i * 300);
                 }
             }
-        }, 12000);
+        }, 8000);
 
         // Special heart fireworks for Lisa
         setInterval(() => {
-            if (particles.length < MAX_PARTICLES * 0.8) {
-                const x = window.innerWidth * (0.45 + Math.random() * 0.1);
-                const y = window.innerHeight * (0.25 + Math.random() * 0.15);
-                createHeart(x, y, ['#ff3b8f', '#ff6b9d', '#ffb6c1'], 40);
+            if (particles.length < MAX_PARTICLES * 0.7) {
+                const x = window.innerWidth * (0.4 + Math.random() * 0.2);
+                const y = window.innerHeight * (0.2 + Math.random() * 0.15);
+                launchRocket(x, y, ['#ff1493', '#ff6b9d', '#ffb6c1', '#ffffff'], 'heart');
             }
-        }, 20000);
+        }, 15000);
 
-        setTimeout(scheduleFirework, 1000);
+        setTimeout(scheduleFirework, 800);
     </script>
 </body>
 </html>
